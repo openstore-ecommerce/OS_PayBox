@@ -65,6 +65,21 @@ namespace OS_PayBox
                         param += "&language=" + lang;
                     }
                     var authResult = Utils.RequestQueryStringParam(HttpContext.Current, "authResult");
+                    var call = Utils.RequestQueryStringParam(HttpContext.Current, "call");
+                    var trans = Utils.RequestQueryStringParam(HttpContext.Current, "trans");
+
+                    if (info.GetXmlPropertyBool("genxml/checkbox/pbxautoseule"))
+                    {
+                        var orderData = new OrderData(Convert.ToInt32(orderid));
+                        if (orderData.PurchaseInfo.GetXmlProperty("genxml/payboxrtn/call") == "")
+                        {
+                            orderData.PurchaseInfo.SetXmlProperty("genxml/payboxrtn", "");
+                            orderData.PurchaseInfo.SetXmlProperty("genxml/payboxrtn/call", call);
+                            orderData.PurchaseInfo.SetXmlProperty("genxml/payboxrtn/trans", trans);
+                            orderData.SavePurchaseData();
+                        }
+                    }
+
 
                     switch (authResult)
                     {

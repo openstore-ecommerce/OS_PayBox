@@ -152,6 +152,12 @@ var info = (NBrightInfo)Model.List.First();
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-2 control-label">PBX_AUTOSEULE</label>
+            <div class="col-sm-3">
+                @CheckBox(info, "genxml/checkbox/pbxautoseule", "Reserve amount, do NOT debit account", "class='form-control'", false)
+            </div>
+        </div>        
+        <div class="form-group">
             <label class="col-sm-2 control-label">HMAC Key</label>
             <div class="col-sm-3">
                 @TextBox(info, "genxml/textbox/hmackey", "class='form-control'", "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF")

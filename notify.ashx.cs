@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Remoting.Contexts;
 using System.Web;
 using NBrightCore.common;
 using Nevoweb.DNN.NBrightBuy.Components;
@@ -47,6 +46,8 @@ namespace OS_PayBox.DNN.NBrightStore
                 {
                     var authcode = Utils.RequestQueryStringParam(context, "auto");
                     var errcode = Utils.RequestQueryStringParam(context, "rtnerr");
+                    var call = Utils.RequestQueryStringParam(context, "call");
+                    var trans = Utils.RequestQueryStringParam(context, "trans");
 
                     OS_PayBoxStoreOrderID = Convert.ToInt32(orderid);
                     // ------------------------------------------------------------------------
@@ -54,9 +55,17 @@ namespace OS_PayBox.DNN.NBrightStore
                     debugMsg += "OrderId: " + orderid + " </br>";
                     debugMsg += "errcode: " + errcode + " </br>";
                     debugMsg += "authcode: " + authcode + " </br>";
+                    debugMsg += "trans: " + trans + " </br>";
+                    debugMsg += "call: " + call + " </br>";
 
                     var orderData = new OrderData(OS_PayBoxStoreOrderID);
-
+                    if (info.GetXmlPropertyBool("genxml/checkbox/pbxautoseule"))
+                    {
+                        orderData.PurchaseInfo.SetXmlProperty("genxml/payboxrtn", "");
+                        orderData.PurchaseInfo.SetXmlProperty("genxml/payboxrtn/call", call);
+                        orderData.PurchaseInfo.SetXmlProperty("genxml/payboxrtn/trans", trans);
+                        orderData.SavePurchaseData();
+                    }
 
                     if (authcode == "")
                         rtnMsg = "KO";
