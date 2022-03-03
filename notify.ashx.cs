@@ -91,6 +91,12 @@ namespace OS_PayBox.DNN.NBrightStore
                             orderData.PaymentFail();
                         }
                     }
+
+                    if (debugMode)
+                    {
+                        orderData.PurchaseInfo.SetXmlProperty("genxml/payboxrtn/debugmsg", debugMsg);
+                        orderData.SavePurchaseData();
+                    }
                 }
                 if (debugMode)
                 {
@@ -112,8 +118,7 @@ namespace OS_PayBox.DNN.NBrightStore
             {
                 if (!ex.ToString().StartsWith("System.Threading.ThreadAbortException")) // we expect a thread abort from the End response.
                 {
-                    info.SetXmlProperty("genxml/debugmsg", "OS_PayBox ERROR: " + ex.ToString());
-                    modCtrl.Update(info);
+                    Logging.LogException(ex);
                 }
             }
 
