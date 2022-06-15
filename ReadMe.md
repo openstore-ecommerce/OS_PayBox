@@ -1,9 +1,7 @@
-﻿Open Store Payment Gateway
-==========================
+﻿
 
-This project is an exmaple project that can be used as a starting point for a payment gateway plugin, by using the VS template.
+Test Card
 
-
-Find the VS Template here: OS_PayBox/Installation/vs_template/
-
-Use the documentation here: Branch: OS_PayBox/Docs/
+DESCRIPTION CARTE VALIDITE* CVV* 
+Numéro de carte de test:  1111 2222 3333 4444 12/24 123 
+Carte participant au programme 3D-Secure (enrôlée) 4012 0010 3714 1112 12/24 123 
