@@ -90,7 +90,18 @@ namespace OS_PayBox
             var cCode = "250";
             if (_countryCode.ContainsKey(countryCode)) cCode = _countryCode[countryCode];
 
-            var xmlBilling = "<?xml version='1.0' encoding='utf-8'?><Billing><Address><FirstName>" + billAddrInfo.GetXmlProperty("genxml/textbox/firstname") + "</FirstName><LastName>" + billAddrInfo.GetXmlProperty("genxml/textbox/lastname") + "</LastName><Address1>" + billAddrInfo.GetXmlProperty("genxml/textbox/unit") + " " + billAddrInfo.GetXmlProperty("genxml/textbox/street") + "</Address1><ZipCode>" + billAddrInfo.GetXmlProperty("genxml/textbox/postalcode") + "</ZipCode><City>" + billAddrInfo.GetXmlProperty("genxml/textbox/city") + "</City><CountryCode>" + cCode + "</CountryCode></Address></Billing>";
+            var firstname = billAddrInfo.GetXmlProperty("genxml/textbox/firstname");
+            if (firstname.Length > 22) firstname = firstname.Substring(0, 22);
+            var lastname = billAddrInfo.GetXmlProperty("genxml/textbox/lastname");
+            if (lastname.Length > 22) lastname = lastname.Substring(0, 22);
+            var addr1 = billAddrInfo.GetXmlProperty("genxml/textbox/unit") + " " + billAddrInfo.GetXmlProperty("genxml/textbox/street");
+            if (addr1.Length > 50) addr1 = addr1.Substring(0, 50);
+            var postalcode = billAddrInfo.GetXmlProperty("genxml/textbox/postalcode");
+            if (postalcode.Length > 16) postalcode = postalcode.Substring(0, 16);
+            var city = billAddrInfo.GetXmlProperty("genxml/textbox/city");
+            if (city.Length > 50) city = city.Substring(0, 50);
+
+            var xmlBilling = "<?xml version='1.0' encoding='utf-8'?><Billing><Address><FirstName>" + firstname + "</FirstName><LastName>" + lastname + "</LastName><Address1>" + addr1 + "</Address1><ZipCode>" + postalcode + "</ZipCode><City>" + city + "</City><CountryCode>" + cCode + "</CountryCode></Address></Billing>";
             xmlBilling = StripAccents(xmlBilling);
             rPost.Add("PBX_BILLING", xmlBilling);
 
