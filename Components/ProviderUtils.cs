@@ -96,13 +96,29 @@ namespace OS_PayBox
             if (lastname.Length > 22) lastname = lastname.Substring(0, 22);
             var addr1 = billAddrInfo.GetXmlProperty("genxml/textbox/unit") + " " + billAddrInfo.GetXmlProperty("genxml/textbox/street");
             if (addr1.Length > 50) addr1 = addr1.Substring(0, 50);
+            var addr2 = billAddrInfo.GetXmlProperty("genxml/textbox/city");
+            if (addr2.Length > 50) addr2 = addr2.Substring(0, 50);
+
+            var modilePhone = billAddrInfo.GetXmlProperty("genxml/textbox/telephone");
+            var isoCountry = ISO3166.FromAlpha2(countryCode);
+            var ccModilePhone = "+1";
+            if (isoCountry != null && isoCountry.DialCodes.Count() > 0) ccModilePhone = "+" + isoCountry.DialCodes[0];
+            if (modilePhone.StartsWith(ccModilePhone)) modilePhone = modilePhone.Replace(ccModilePhone, "");
+            if (modilePhone == "") modilePhone = "0123456789";            
+
             var postalcode = billAddrInfo.GetXmlProperty("genxml/textbox/postalcode");
             if (postalcode.Length > 16) postalcode = postalcode.Substring(0, 16);
             var city = billAddrInfo.GetXmlProperty("genxml/textbox/city");
             if (city.Length > 50) city = city.Substring(0, 50);
 
-            var xmlBilling = "<?xml version='1.0' encoding='utf-8'?><Billing><Address><FirstName>" + firstname + "</FirstName><LastName>" + lastname + "</LastName><Address1>" + addr1 + "</Address1><ZipCode>" + postalcode + "</ZipCode><City>" + city + "</City><CountryCode>" + cCode + "</CountryCode></Address></Billing>";
+            var xmlBilling = "<?xml version='1.0' encoding='utf-8'?><Billing><Address><FirstName>" + firstname + "</FirstName>";
+            xmlBilling += "<LastName>" + lastname + "</LastName><Address1>" + addr1 + "</Address1>";
+            xmlBilling += "<Address2>" + addr2 + "</Address2><ZipCode>" + postalcode + "</ZipCode>";
+            xmlBilling += "<City>" + city + "</City><CountryCode>" + cCode + "</CountryCode>";
+            xmlBilling += "<CountryCodeMobilePhone>" + ccModilePhone + "</CountryCodeMobilePhone><MobilePhone>" + modilePhone + "</MobilePhone>";
+            xmlBilling += "</Address></Billing>";
             xmlBilling = StripAccents(xmlBilling);
+
             rPost.Add("PBX_BILLING", xmlBilling);
 
             // Calc HMAC

@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Components\AjaxProvider.cs" />
     <Compile Include="Components\Hash.cs" />
+    <Compile Include="Components\InternationalCallingCodes.cs" />
     <Compile Include="Components\PaymentProvider.cs" />
     <Compile Include="Payment.ascx.cs">
       <DependentUpon>Payment.ascx</DependentUpon>
